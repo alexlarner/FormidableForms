@@ -28,8 +28,10 @@ function Get-FFFormEntry {
 		} else {
 			Write-PSFMessage "Getting entries from form $FormID"
 			$Result = Invoke-FFAPI -URISuffix "/forms/$FormID/entries"
-			$Result.PSObject.Properties.Name | ForEach-Object {
-				$Result.$_
+			if ($Result) {
+				$Result.PSObject.Properties.Name | ForEach-Object {
+					$Result.$_
+				}
 			}
 		}
 
@@ -56,7 +58,7 @@ function Get-FFFormEntry {
 		if ($IncludeMetadata.IsPresent) {
 			Write-Output $RawEntries
 		} else {
-			Write-Output $RawEntries.Meta
+			if ($RawEntries) { Write-Output $RawEntries.Meta }
 		}
 	}
 }
